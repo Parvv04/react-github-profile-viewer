@@ -20,7 +20,7 @@
   border-radius: 8px;
   border: 2px solid #ccc;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: 10px;
 }
 
@@ -37,12 +37,35 @@
   grid-row: span 2;
 }
 
+.user-card .user-info .bio{
+  border: 1px solid #ccc;
+  border-radius: 4px;  
+  text-align: left;
+  padding: 5px;
+}
+
+.user-card .user-info .stats{
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  text-align: left;
+  padding: 5px;
+  gap: 5px;
+}
+
+.stats * {
+    word-break: break-word;
+    width: 90%;
+}
+
 img {
   border: 3px solid #ccc;
   width: 100%;
   height: auto;
   border-radius: 4px;
-  grid-row: span 3;
+  grid-row: span 2;
+  align-self: center;
 
 }
 

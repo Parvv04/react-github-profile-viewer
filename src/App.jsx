@@ -64,27 +64,30 @@ function UserCard({ user }) {
       <img src={user.avatar} alt={`${user.name}'s avatar`} />
       <div className="user-info"> 
         <h2 className='name'>{user.name || "Name not specified"}</h2>
-        <p>{user.bio || "No bio available"}</p>
-        <p>Followers: {user.followers}</p>
-        <p>Following: {user.following}</p>
-        <p>Repositories: {user.repos}</p>
-        <p>Joined: {new Date(user.date).toLocaleDateString()}</p>
-        <p>Location: {user.location || "Not specified"}</p>
-        <p>Company: {user.company || "Not specified"}</p>
-        <p>Blog: 
-          {user.blog ? 
+        <p className='bio'> {user.bio ||
+          "No bio available"}
+        </p>
+        <div className="stats">
+          <p><b>Followers:</b> {user.followers}</p>
+          <p><b>Following:</b> {user.following}</p>
+          <p><b>Repositories:</b> {user.repos}</p>
+          <p><b>Joined:</b> {new Date(user.date).toLocaleDateString()}</p>
+          <p><b>Location:</b> {user.location || "Not specified"}</p>
+          <p><b>Company:</b> {user.company || "Not specified"}</p>
+          <p><b>Blog:</b> {user.blog ? 
             <a href={user.blog} target="_blank" rel="noopener noreferrer">
               {user.blog}
             </a> : 
             "Not specified"}
-        </p>
-        <a
-          href = {user.link}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+          </p>
+          <a
+            href = {user.link}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
           View Profile
-        </a>
+          </a>
+        </div>
       </div>
     </div>
   )
