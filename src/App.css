@@ -20,8 +20,21 @@
   border-radius: 8px;
   border: 2px solid #ccc;
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
+}
+
+.user-info{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-info h2 {
+  font-size: 1.5rem;
+  border-bottom: 2px solid #398134;
+  padding-bottom: 5px;
+  grid-row: span 2;
 }
 
 img {
@@ -29,14 +42,8 @@ img {
   width: 100%;
   height: auto;
   border-radius: 4px;
-  grid-row: span 1;
+  grid-row: span 3;
 
-}
-
-.user-info{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }
 
 button {
@@ -54,10 +61,4 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
-}
-
-.user-info h2 {
-  font-size: 1.5rem;
-  border-bottom: 2px solid #007bff;
-  padding-bottom: 5px;
 }

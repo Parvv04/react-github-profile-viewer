@@ -3,12 +3,12 @@ import './App.css'
 
 async function getGitHubUser(username) {
   try {
-    const reponse = await fetch(`https://api.github.com/users/${username}`)
-    if(!reponse.ok) {
-      throw new Error(`HTTP error! status: ${reponse.status}`)
+    const response = await fetch(`https://api.github.com/users/${username}`)
+    if(!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
     }
 
-    const data = await reponse.json()
+    const data = await response.json()
     console.log(data)  
   
     return {
@@ -17,7 +17,12 @@ async function getGitHubUser(username) {
     bio: data.bio,
     followers: data.followers,
     following: data.following,
-    repos: data.public_repos
+    repos: data.public_repos,
+    date: data.created_at,
+    location: data.location,
+    company: data.company,
+    blog: data.blog,
+    link: data.html_url
   }
   }
 
@@ -29,20 +34,26 @@ async function getGitHubUser(username) {
   
 }
 
-function UserInput({username, setUsername, fetchData}) {
+function UserInput({username, setUsername, fetchData, loading}) {
   return (
     <div className="user-input">
       <input 
         type="text" 
         placeholder="Enter GitHub username" 
         value={username} 
-        onChange={(event) => setUsername(event.target.value)} 
+        onChange={(event) => {setUsername(event.target.value);
+          setSearched(false);
+        }}
         onKeyDown={(e) => {
           if(e.key === "Enter"){
             fetchData();
           }
         }}/>
-      <button onClick={fetchData}>Search</button>
+      <button 
+        onClick={fetchData}
+        disabled = {loading || username.trim() === ""}>
+          Search
+      </button>
     </div>
   )
 }
@@ -52,11 +63,28 @@ function UserCard({ user }) {
     <div className="user-card">
       <img src={user.avatar} alt={`${user.name}'s avatar`} />
       <div className="user-info"> 
-      <h2>{user.name}</h2>
-      <p>{user.bio}</p>
-      <p>Followers: {user.followers}</p>
-      <p>Following: {user.following}</p>
-      <p>Repositories: {user.repos}</p>
+        <h2 className='name'>{user.name || "Name not specified"}</h2>
+        <p>{user.bio || "No bio available"}</p>
+        <p>Followers: {user.followers}</p>
+        <p>Following: {user.following}</p>
+        <p>Repositories: {user.repos}</p>
+        <p>Joined: {new Date(user.date).toLocaleDateString()}</p>
+        <p>Location: {user.location || "Not specified"}</p>
+        <p>Company: {user.company || "Not specified"}</p>
+        <p>Blog: 
+          {user.blog ? 
+            <a href={user.blog} target="_blank" rel="noopener noreferrer">
+              {user.blog}
+            </a> : 
+            "Not specified"}
+        </p>
+        <a
+          href = {user.link}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          View Profile
+        </a>
       </div>
     </div>
   )
@@ -86,21 +114,14 @@ function App() {
     }
   }
 
-  console.log(user)
-
-  if (loading) {
-    return (
-        <div className="App">
-          <UserInput username={username} setUsername={setUsername} fetchData={fetchData} />
-          <p>Loading...</p>   
-        </div>
-    )
-  }
-
   return (
     <div className="App">
-      <UserInput username={username} setUsername={setUsername} fetchData={fetchData} />
+      <UserInput username={username} setUsername={setUsername} fetchData={fetchData} loading={loading} />
       {
+        loading
+        ?
+        (<p>Loading...</p>)
+        :
         username.trim() === ""
         ?
         (<p>Please enter a username to search</p>)
